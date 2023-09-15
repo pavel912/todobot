@@ -1,0 +1,93 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="lob55 (generated)" id="1694458393073-1">
+        <createSequence incrementBy="50" sequenceName="reminder_seq" startValue="1"/>
+    </changeSet>
+    <changeSet author="lob55 (generated)" id="1694458393073-2">
+        <createSequence incrementBy="50" sequenceName="tasks_seq" startValue="1"/>
+    </changeSet>
+    <changeSet author="lob55 (generated)" id="1694458393073-3">
+        <createSequence incrementBy="50" sequenceName="to_do_list_seq" startValue="1"/>
+    </changeSet>
+    <changeSet author="lob55 (generated)" id="1694458393073-4">
+        <createSequence incrementBy="50" sequenceName="user_session_seq" startValue="1"/>
+    </changeSet>
+    <changeSet author="lob55 (generated)" id="1694458393073-5">
+        <createSequence incrementBy="50" sequenceName="users_seq" startValue="1"/>
+    </changeSet>
+    <changeSet author="lob55 (generated)" id="1694458393073-6">
+        <createTable tableName="reminder">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="reminderPK"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP(6)"/>
+            <column name="remind_at" type="TIMESTAMP(6)"/>
+            <column name="reminder_command" type="TINYINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lob55 (generated)" id="1694458393073-7">
+        <createTable tableName="tasks">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="tasksPK"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP(6)"/>
+            <column name="logged_hours" type="INT"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="to_do_list_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lob55 (generated)" id="1694458393073-8">
+        <createTable tableName="to_do_list">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="to_do_listPK"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP(6)"/>
+            <column name="planned_on" type="date"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lob55 (generated)" id="1694458393073-9">
+        <createTable tableName="user_session">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_sessionPK"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP(6)"/>
+            <column name="is_active" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_command" type="TINYINT"/>
+            <column name="last_updated_at" type="TIMESTAMP(6)"/>
+            <column name="session_expiration_time_in_min" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="wait_command" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lob55 (generated)" id="1694458393073-10">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="usersPK"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP(6)"/>
+            <column name="most_recent_chat_id" type="BIGINT"/>
+            <column name="telegram_name" type="VARCHAR(255)"/>
+            <column name="telegram_user_name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lob55 (generated)" id="1694458393073-11">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="to_do_list" constraintName="FKf527d000vd8i6mr9n4maucdam" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="lob55 (generated)" id="1694458393073-12">
+        <addForeignKeyConstraint baseColumnNames="to_do_list_id" baseTableName="tasks" constraintName="FKkje1sqqql0ewbv0w9ypg8wpe4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="to_do_list" validate="true"/>
+    </changeSet>
+    <changeSet author="lob55 (generated)" id="1694458393073-13">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_session" constraintName="FKlr29o11uswdgcnn8swu3q15f8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="lob55 (generated)" id="1694458393073-14">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="reminder" constraintName="FKo8n9bn7kt0wt86htrwbnt8mil" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
