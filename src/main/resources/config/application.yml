@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active:
+      ${APP_ENV}
+  application:
+    name: to_do_list_bot
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+bot:
+  name: to_do_list_bot
+  token: ${BOT_TOKEN}
