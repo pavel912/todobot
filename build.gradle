@@ -40,7 +40,10 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 
-	runtimeOnly 'com.h2database:h2:2.2.220'
+	runtimeOnly (
+			'com.h2database:h2:2.2.220',
+			'org.postgresql:postgresql:42.5.4'
+	)
 
 	liquibaseRuntime (
 			'info.picocli:picocli:4.6.1',
