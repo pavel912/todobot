@@ -36,11 +36,9 @@ import pavel.todobot.service.ReminderService;
 import pavel.todobot.service.UserService;
 import pavel.todobot.service.UserSessionService;
 
-import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
@@ -75,8 +73,6 @@ public class TelegramBot extends TelegramLongPollingBot {
     );
 
     private final MessageHandler messageHandler = new SimpleToDoListHandler();
-
-    private final int timeZoneOffset = 3;
 
     private final Map<ReminderCommandEnum, ReminderCommand> reminderCommandEnumReminderCommandMap;
 
@@ -234,14 +230,14 @@ public class TelegramBot extends TelegramLongPollingBot {
         Instant defaultLogReminderTime = LocalDate
                 .now()
                 .atStartOfDay()
-                .toInstant(ZoneOffset.ofHours(timeZoneOffset))
-                .plusSeconds((24 + 18) * 3600);
+                .toInstant(ZoneOffset.UTC)
+                .plusSeconds((24 + 15) * 3600);
 
         Instant defaultShowTaskReminderTime = LocalDate
                 .now()
                 .atStartOfDay()
-                .toInstant(ZoneOffset.ofHours(timeZoneOffset))
-                .plusSeconds((24 + 10) * 3600);
+                .toInstant(ZoneOffset.UTC)
+                .plusSeconds((24 + 7) * 3600);
 
         createReminder(user, ReminderCommandEnum.LOG, defaultLogReminderTime);
         createReminder(user, ReminderCommandEnum.SHOW_TASKS, defaultShowTaskReminderTime);
@@ -251,7 +247,6 @@ public class TelegramBot extends TelegramLongPollingBot {
         return commandEnumCommandMap.get(userSession.getLastCommand());
     }
 
-    //todo: create commands
     @Scheduled(fixedDelay = 900000)
     private void checkReminder() {
         for (pavel.todobot.domain.User user : userService.getAll()) {
@@ -260,10 +255,8 @@ public class TelegramBot extends TelegramLongPollingBot {
                         .getRemindAt()
                         .isAfter(
                                 LocalDateTime
-                                        .now()
-                                        .atOffset(ZoneOffset.UTC)
-                                        .plusHours(timeZoneOffset)
-                                        .toInstant())) {
+                                        .now(ZoneOffset.UTC)
+                                        .toInstant(ZoneOffset.UTC))) {
                     continue;
                 }
 
